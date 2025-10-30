@@ -1,0 +1,243 @@
+:root{
+	--bg:#0b1220;
+	--bg-2:#0f1724;
+	--fg:#e6eef8;
+	--muted:#9fb0c8;
+	--accent:#6ee7b7;
+	--card:#0f1728; /* Using this for the content background */
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+	margin:0;
+	font-family:Inter, Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial;
+	background:linear-gradient(180deg,var(--bg),var(--bg-2));
+	color:var(--fg);
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
+}
+.container{max-width:1100px;margin:0 auto;padding:1rem}
+/* Accessibility helpers */
+.sr-only{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap;border:0;padding:0;margin:-1px}
+.visually-hidden{display:none}
+
+/* Reset and sensible defaults for lists and sections */
+ul,ol{margin:0 0 1rem 0;padding-left:1.15rem}
+li{margin:0.25rem 0}
+section,header,footer,main,nav{display:block}
+.header-inner{display:flex;align-items:center;gap:1rem;justify-content:space-between}
+.brand{color:var(--fg);text-decoration:none;font-weight:700;font-size:1.05rem}
+.nav ul{list-style:none;margin:0;padding:0;display:flex;gap:0.5rem}
+.nav a{color:var(--muted);text-decoration:none;padding:0.45rem 0.6rem;border-radius:6px}
+.nav a:hover{color:var(--fg);background:rgba(255,255,255,0.02)}
+.nav-toggle{display:none;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--fg);padding:0.35rem 0.6rem;border-radius:6px}
+.site-header{
+	border-bottom: 1px solid rgba(255,255,255,0.03);
+	padding: 0.6rem 0;
+	position: relative;
+	background: var(--bg);
+	z-index: 100;
+}
+.hero{padding:2.5rem 0}
+.hero h1{margin:0 0 0.25rem 0;font-size:clamp(1.6rem,3.8vw,2.6rem)}
+.lead{color:var(--muted);margin:0 0 1.25rem 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+.card{display:block;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:1rem;border-radius:10px;color:var(--fg);text-decoration:none;border:1px solid rgba(255,255,255,0.02);transition:transform .15s ease,box-shadow .15s ease}
+.card strong{display:block;font-size:1rem}
+.card span{display:block;color:var(--muted);font-size:0.9rem;margin-top:0.45rem}
+.card:hover{transform:translateY(-6px);box-shadow:0 10px 20px rgba(2,6,23,0.6)}
+.main-content{padding-bottom:3rem}
+.site-footer{border-top:1px solid rgba(255,255,255,0.03);padding:1rem 0;margin-top:2rem;color:var(--muted)}
+
+/* footer contact links */
+.site-footer .footer-links{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:1rem 1.5rem;align-items:center}
+.site-footer .footer-links li{margin:0}
+.site-footer .footer-links a{color:var(--muted);text-decoration:none;border-bottom:1px dashed transparent;padding-bottom:2px}
+.site-footer .footer-links a:hover{color:var(--fg);border-bottom-color:rgba(255,255,255,0.06)}
+.site-footer small{display:block;margin-top:0.6rem;color:var(--muted)}
+
+/* --- MODIFIED Page content styling --- */
+.content{
+	background: var(--card); /* Set background to match cards */
+	padding: 1.5rem; /* Increased padding */
+	border-radius: 10px;
+	width: 85%; /* Set width */
+	margin: 0 auto; /* Center the block */
+	border: 1px solid rgba(255,255,255,0.02);
+	position: relative;
+	z-index: 1;
+}
+.section-title{margin:0 0 0.5rem 0}
+
+/* responsive nav */
+@media (max-width:800px){
+	.nav{display:none}
+	.nav.open{
+		display: block;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 100%; /* Position it right below the header */
+		background: var(--bg);
+		padding: 0.75rem;
+		border-bottom: 1px solid rgba(255,255,255,0.08);
+		box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+		z-index: 1000; /* Ensure it appears above other content */
+	}
+	.nav.open ul{
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+	.nav.open ul li {
+		margin: 0;
+	}
+	.nav.open ul li a {
+		display: block;
+		padding: 0.75rem 1rem;
+		border-radius: 6px;
+		transition: all 0.2s ease;
+	}
+	.nav.open ul li a:hover {
+		background: rgba(255,255,255,0.05);
+		transform: translateX(4px);
+	}
+	.nav-toggle{
+		display: inline-block;
+		cursor: pointer;
+		transition: opacity 0.2s ease;
+	}
+	.nav-toggle:hover {
+		opacity: 0.8;
+	}
+
+	/* Make content full-width on mobile */
+	.content {
+		width: 100%;
+		padding: 1rem;
+	}
+}
+
+/* --- Responsive iframe container --- */
+.embed-wrap {
+    width: 100%;
+    max-width: 100%;
+    background: transparent;
+    padding: 0;
+    box-sizing: border-box;
+    margin: 1rem 0;
+}
+.embed-inner {
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    width: 100%;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+}
+.embed-inner iframe,
+.embed-inner object {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Type-specific embed sizing */
+.embed-wrap.presentation .embed-inner {
+    aspect-ratio: 16/9;
+    min-height: min(360px, 50vh);
+    max-height: 80vh;
+}
+.embed-wrap.spreadsheet .embed-inner,
+.embed-wrap.drive-file .embed-inner {
+    aspect-ratio: 16/9;
+    min-height: min(420px, 60vh);
+    max-height: 85vh;
+}
+.embed-wrap.document .embed-inner {
+    aspect-ratio: auto;
+    min-height: min(500px, 65vh);
+    height: calc(100vh - 280px);
+    max-height: 85vh;
+}
+
+/* Screen-specific adjustments */
+@media (min-width: 1200px) {
+    .embed-wrap.document .embed-inner {
+        height: calc(100vh - 240px);
+    }
+}
+
+@media (max-width: 768px) {
+    .embed-wrap.document .embed-inner {
+        height: calc(100vh - 200px);
+        min-height: min(400px, 70vh);
+    }
+    .embed-wrap.presentation .embed-inner,
+    .embed-wrap.spreadsheet .embed-inner,
+    .embed-wrap.drive-file .embed-inner {
+        min-height: min(300px, 50vh);
+    }
+}
+
+.embed-wrap{display:block;margin:0 auto}
+
+/* --- NEW: Slide Navigation List Styles --- */
+.slide-nav {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 1.5rem 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+.slide-nav li {
+	margin: 0;
+}
+.slide-nav a {
+	display: block;
+	padding: 0.5rem 0.8rem;
+	background: var(--bg-2);
+	color: var(--muted);
+	text-decoration: none;
+	border-radius: 6px;
+	border: 1px solid rgba(255,255,255,0.04);
+	transition: background 0.15s ease, color 0.15s ease;
+	cursor: pointer;
+}
+.slide-nav a:hover {
+	background: var(--bg);
+	color: var(--fg);
+}
+.slide-nav a.active {
+	background: var(--accent);
+	color: var(--bg);
+	font-weight: 600;
+	border-color: var(--accent);
+}
+
+/* Form styling (no longer used on slides, but kept for rulebook if added later) */
+.drive-form{display:flex;gap:0.5rem;margin-bottom:0.75rem; width: 100%;}
+.drive-form input{flex:1;padding:0.55rem;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--fg)}
+.drive-form button{padding:0.55rem 0.8rem;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:var(--accent);color:#022;cursor:pointer}
+
+.muted{color:var(--muted)}
+
+/* Code / pre formatting */
+pre{background:rgba(255,255,255,0.02);padding:0.75rem;border-radius:6px;overflow:auto;border:1px solid rgba(255,255,255,0.02);font-size:0.95rem}
+code{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;color:var(--fg)}
+
+/* footer icons and link alignment */
+.site-footer .footer-links li i{margin-left:0.45rem;color:var(--accent);font-size:1.05rem}
+.site-footer .footer-links a{display:inline-flex;align-items:center;gap:0.35rem}
+
+/* small screen tweaks */
+@media (max-width:520px){
+	.container{padding:0.75rem}
+	.grid{gap:0.6rem}
+	.card{padding:0.8rem}
+	.content { padding: 1rem; } /* Adjust padding for small screens */
+	.slide-nav a { padding: 0.4rem 0.7rem; font-size: 0.9rem; }
+}

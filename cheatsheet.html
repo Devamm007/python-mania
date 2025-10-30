@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Cheatsheet — python-mania</title>
+		<link rel="stylesheet" href="assets/index.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">   
+	</head>
+	<body>
+		<header class="site-header">
+			<div class="container header-inner">
+				<a class="brand" href="index.html">python-mania</a>
+				<button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation">☰</button>
+				<nav id="site-nav" class="nav" aria-label="Main navigation">
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="rulebook.html">Rulebook</a></li>
+						<li><a href="faqs.html">FAQs</a></li>
+						<li><a href="dpp.html">DPP</a></li>
+						<li><a href="slides.html">Slides</a></li>
+						<li><a href="cheatsheet.html">Cheatsheet</a></li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+
+		<main class="container main-content">
+			<section class="content">
+				<h1 class="section-title">Cheatsheet</h1>
+				<p class="muted">Quick reference: syntax, builtins and common snippets.</p>
+
+				<h3>Basics</h3>
+				<pre><code># variables
+x = 5
+name = "Alice"
+
+# function
+def greet(n):
+		return f"Hello, {n}!"
+
+# list comprehension
+squares = [i*i for i in range(10)]
+print(squares)
+				</code></pre>
+
+				<h3>Common Builtins</h3>
+				<ul>
+					<li><code>len()</code> — Get the length of an iterable.</li>
+					<li><code>sorted()</code> — Return a new sorted list.</li>
+					<li><code>map()</code>, <code>filter()</code>, <code>zip()</code> — Functional programming tools.</li>
+					<li><code>enumerate()</code> — Get index and item during loops.</li>
+				</ul>
+
+				<h3>IO & Files</h3>
+				<pre><code># read a file
+with open('file.txt', 'r') as f:
+		data = f.read()
+
+# write to a file
+with open('output.txt', 'w') as f:
+		f.write('hello world')
+				</code></pre>
+
+			</section>
+		</main>
+
+		<footer class="site-footer">
+            <div class="container">
+                <ul class="footer-links">
+                    <li>Contact: SAANJHI VARSHNEY (7078957135)</li>
+                    <li><a href="https://github.com/Devamm007/python-mania" target="_blank" rel="noopener">GitHub <i class="fab fa-github"></i></a></li>
+                </ul>
+                <small class="muted">Cheatsheet • python-mania • © 2025</small>
+            </div>
+        </footer>
+
+		<script src="assets/index.js"></script>
+	</body>
+</html>
