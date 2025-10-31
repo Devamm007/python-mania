@@ -1,6 +1,6 @@
 :root{
 	--bg:#0b1220;
-	--bg-2:#0f1724;
+	--bg-2:#191d24;
 	--fg:#e6eef8;
 	--muted:#9fb0c8;
 	--accent:#6ee7b7;
@@ -8,11 +8,15 @@
 	--link-color:#6b9fff; /* New subtle blue color for links */
 }
 *{box-sizing:border-box}
-html,body{height:100%}
+html,body{
+	height:100%;
+	background: linear-gradient(141deg, var(--bg) 51%, var(--bg-2) 75%);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
 body{
 	margin:0;
 	font-family:Inter, Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial;
-	background:linear-gradient(180deg,var(--bg),var(--bg-2));
 	color:var(--fg);
 	-webkit-font-smoothing:antialiased;
 	-moz-osx-font-smoothing:grayscale;
@@ -180,46 +184,6 @@ a:hover {
     margin-bottom: 1.2rem;
 }
 
-/* Type-specific embed sizing */
-.embed-wrap.presentation .embed-inner {
-    aspect-ratio: 16/9;
-    min-height: min(360px, 50vh);
-    max-height: 80vh;
-}
-.embed-wrap.spreadsheet .embed-inner,
-.embed-wrap.drive-file .embed-inner {
-    aspect-ratio: 16/9;
-    min-height: min(420px, 60vh);
-    max-height: 85vh;
-}
-.embed-wrap.document .embed-inner {
-    aspect-ratio: auto;
-    min-height: min(500px, 65vh);
-    height: calc(100vh - 280px);
-    max-height: 85vh;
-}
-
-/* Screen-specific adjustments */
-@media (min-width: 1200px) {
-    .embed-wrap.document .embed-inner {
-        height: calc(100vh - 240px);
-    }
-}
-
-@media (max-width: 768px) {
-    .embed-wrap.document .embed-inner {
-        height: calc(100vh - 200px);
-        min-height: min(400px, 70vh);
-    }
-    .embed-wrap.presentation .embed-inner,
-    .embed-wrap.spreadsheet .embed-inner,
-    .embed-wrap.drive-file .embed-inner {
-        min-height: min(300px, 50vh);
-    }
-}
-
-.embed-wrap{display:block;margin:0 auto}
-
 /* --- NEW: Slide Navigation List Styles --- */
 .slide-nav {
 	list-style: none;
@@ -265,6 +229,110 @@ a:hover {
 pre{background:rgba(255,255,255,0.02);padding:0.75rem;border-radius:6px;overflow:auto;border:1px solid rgba(255,255,255,0.02);font-size:0.95rem}
 code{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;color:var(--fg)}
 
+/* Recordings page styles */
+.recordings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem 0;
+}
+
+.recording-card {
+    background: var(--bg-2);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.recording-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.thumbnail-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    background: var(--bg);
+    overflow: hidden;
+}
+
+.thumbnail-link {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease;
+}
+
+.play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.play-overlay i {
+    font-size: 3rem;
+    color: white;
+    opacity: 0.9;
+}
+
+.thumbnail-link:hover .thumbnail {
+    transform: scale(1.05);
+}
+
+.thumbnail-link:hover .play-overlay {
+    opacity: 1;
+}
+
+.recording-info {
+    padding: 1.2rem;
+}
+
+.recording-info h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    color: var(--fg);
+}
+
+.recording-description {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+@media (max-width: 640px) {
+    .recordings-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .recording-card {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
 /* footer icons and link alignment */
 .site-footer .footer-links li i{margin-left:0.45rem;color:var(--accent);font-size:1.05rem}
 .site-footer .footer-links a{display:inline-flex;align-items:center;gap:0.35rem}
@@ -277,3 +345,4 @@ code{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Co
 	.content { padding: 1rem; } /* Adjust padding for small screens */
 	.slide-nav a { padding: 0.4rem 0.7rem; font-size: 0.9rem; }
 }
+
