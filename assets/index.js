@@ -1,98 +1,133 @@
 document.addEventListener('DOMContentLoaded', function () {
 	// mobile nav toggle
-	var navToggle = document.getElementById('nav-toggle');
-	var nav = document.getElementById('site-nav');
-	if (navToggle && nav) {
-		// Handle menu toggle
-		navToggle.addEventListener('click', function (e) {
-			e.stopPropagation();
+	function setupMobileNav() {
+		var navToggle = document.getElementById('nav-toggle');
+		var nav = document.getElementById('site-nav');
+		
+		if (!navToggle || !nav) {
+			console.warn('Navigation elements not found');
+			return;
+		}
+
+		function toggleNav(e) {
+			if (e) {
+				e.preventDefault();
+				e.stopPropagation();
+			}
 			nav.classList.toggle('open');
-		});
+			// Update aria-expanded to reflect the current state
+			navToggle.setAttribute('aria-expanded', nav.classList.contains('open'));
+		}
+
+		// Initialize aria attributes
+		navToggle.setAttribute('aria-controls', 'site-nav');
+		navToggle.setAttribute('aria-expanded', 'false');
+
+		// Handle menu toggle click
+		navToggle.addEventListener('click', toggleNav);
 
 		// Close menu when clicking outside
-		document.addEventListener('click', function (e) {
-			if (!nav.contains(e.target) && !navToggle.contains(e.target)) {
-				nav.classList.remove('open');
+		document.addEventListener('click', function(e) {
+			if (nav.classList.contains('open') && 
+				!nav.contains(e.target) && 
+				!navToggle.contains(e.target)) {
+				toggleNav();
 			}
 		});
 
 		// Close menu when clicking a link
-		nav.addEventListener('click', function (e) {
+		nav.addEventListener('click', function(e) {
 			if (e.target.tagName === 'A') {
-				nav.classList.remove('open');
+				toggleNav();
 			}
 		});
 
-		// Close menu on window resize (in case screen size changes to desktop)
-		window.addEventListener('resize', function () {
-			if (window.innerWidth > 800) {
-				nav.classList.remove('open');
+		// Handle ESC key to close menu
+		document.addEventListener('keydown', function(e) {
+			if (e.key === 'Escape' && nav.classList.contains('open')) {
+				toggleNav();
 			}
+		});
+
+		// Close menu on window resize
+		let resizeTimer;
+		window.addEventListener('resize', function() {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(function() {
+				if (window.innerWidth > 800 && nav.classList.contains('open')) {
+					toggleNav();
+				}
+			}, 100);
 		});
 	}
 
-		// Parse Google Drive / Google Docs links and return {id, type}
-		function parseDriveInfo(link) {
-			if (!link) return null;
-			// Docs (document)
-			var m = link.match(/docs\.google\.com\/document\/d\/([a-zA-Z0-9_-]+)/);
-			if (m) return { id: m[1], type: 'document' };
-			// Slides (presentation)
-			m = link.match(/docs\.google\.com\/presentation\/d\/([a-zA-Z0-9_-]+)/);
-			if (m) return { id: m[1], type: 'presentation' };
-			// Sheets (spreadsheet)
-			m = link.match(/docs\.google\.com\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
-			if (m) return { id: m[1], type: 'spreadsheet' };
-			// Forms
-			m = link.match(/docs\.google\.com\/forms\/d\/([a-zA-Z0-9_-]+)/);
-			if (m) return { id: m[1], type: 'form' };
-			// /file/d/FILEID pattern (Drive file)
-			m = link.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-			if (m) return { id: m[1], type: 'drive-file' };
-			// id=FILEID query param
-			m = link.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-			if (m) return { id: m[1], type: 'drive-file' };
-			// uc?id=FILEID
-			m = link.match(/uc\?id=([a-zA-Z0-9_-]+)/);
-			if (m) return { id: m[1], type: 'drive-file' };
-			// direct-ish id (fallback) - 20+ chars
-			m = link.match(/^([a-zA-Z0-9_-]{20,})$/);
-			if (m) return { id: m[1], type: 'drive-file' };
-			return null;
-		}
+	// Initialize mobile navigation
+	setupMobileNav();
 
-		function buildEmbedSrc(link, overrideType) {
-			var info = parseDriveInfo(link);
-			if (!info) return null;
-			var id = info.id;
-			var type = overrideType || info.type;
-			switch (type) {
-				case 'document':
-					return 'https://docs.google.com/document/d/' + id + '/preview';
-				case 'presentation':
-					// presentations work better with the /embed endpoint
-					return 'https://docs.google.com/presentation/d/' + id + '/embed';
-				case 'spreadsheet':
-					return 'https://docs.google.com/spreadsheets/d/' + id + '/preview';
-				case 'form':
-					return 'https://docs.google.com/forms/d/' + id + '/viewform?embedded=true';
-				case 'drive-file':
-				default:
-					return 'https://drive.google.com/file/d/' + id + '/preview';
-			}
-		}
+	// --- Google Drive Embed Logic (Retained from original file) ---
+	
+	// Parse Google Drive / Google Docs links and return {id, type}
+	function parseDriveInfo(link) {
+		if (!link) return null;
+		// Docs (document)
+		var m = link.match(/docs\.google\.com\/document\/d\/([a-zA-Z0-9_-]+)/);
+		if (m) return { id: m[1], type: 'document' };
+		// Slides (presentation)
+		m = link.match(/docs\.google\.com\/presentation\/d\/([a-zA-Z0-9_-]+)/);
+		if (m) return { id: m[1], type: 'presentation' };
+		// Sheets (spreadsheet)
+		m = link.match(/docs\.google\.com\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+		if (m) return { id: m[1], type: 'spreadsheet' };
+		// Forms
+		m = link.match(/docs\.google\.com\/forms\/d\/([a-zA-Z0-9_-]+)/);
+		if (m) return { id: m[1], type: 'form' };
+		// /file/d/FILEID pattern (Drive file)
+		m = link.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+		if (m) return { id: m[1], type: 'drive-file' };
+		// id=FILEID query param
+		m = link.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+		if (m) return { id: m[1], type: 'drive-file' };
+		// uc?id=FILEID
+		m = link.match(/uc\?id=([a-zA-Z0-9_-]+)/);
+		if (m) return { id: m[1], type: 'drive-file' };
+		// direct-ish id (fallback) - 20+ chars
+		m = link.match(/^([a-zA-Z0-9_-]{20,})$/);
+		if (m) return { id: m[1], type: 'drive-file' };
+		return null;
+	}
 
-		function createIframe(src, allowFullScreen) {
-			var iframe = document.createElement('iframe');
-			iframe.src = src;
-			var allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
-			if (allowFullScreen) allow += '; fullscreen';
-			iframe.setAttribute('allow', allow);
-			if (allowFullScreen) iframe.setAttribute('allowfullscreen', '');
-			iframe.loading = 'lazy';
-			iframe.referrerPolicy = 'no-referrer';
-			return iframe;
+	function buildEmbedSrc(link, overrideType) {
+		var info = parseDriveInfo(link);
+		if (!info) return null;
+		var id = info.id;
+		var type = overrideType || info.type;
+		switch (type) {
+			case 'document':
+				return 'https://docs.google.com/document/d/' + id + '/preview';
+			case 'presentation':
+				// presentations work better with the /embed endpoint
+				return 'https://docs.google.com/presentation/d/' + id + '/embed';
+			case 'spreadsheet':
+				return 'https://docs.google.com/spreadsheets/d/' + id + '/preview';
+			case 'form':
+				return 'https://docs.google.com/forms/d/' + id + '/viewform?embedded=true';
+			case 'drive-file':
+			default:
+				return 'https://drive.google.com/file/d/' + id + '/preview';
 		}
+	}
+
+	function createIframe(src, allowFullScreen) {
+		var iframe = document.createElement('iframe');
+		iframe.src = src;
+		var allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+		if (allowFullScreen) allow += '; fullscreen';
+		iframe.setAttribute('allow', allow);
+		if (allowFullScreen) iframe.setAttribute('allowfullscreen', '');
+		iframe.loading = 'lazy';
+		iframe.referrerPolicy = 'no-referrer';
+		return iframe;
+	}
 
 	// Find elements with data-drive-link and render embeds
 	function embedDriveElements() {
@@ -100,10 +135,10 @@ document.addEventListener('DOMContentLoaded', function () {
 			var link = el.getAttribute('data-drive-link') || '';
 			link = link.trim();
 			if (!link) {
-                // Do not clear the element if link is empty, to preserve initial messages
+				// Do not clear the element if link is empty, to preserve initial messages
 				if (el.innerHTML.includes('embed-wrap')) {
-                    el.innerHTML = '<p class="muted">No Drive link provided.</p>';
-                }
+					el.innerHTML = '<p class="muted">No Drive link provided.</p>';
+				}
 				return;
 			}
 			var src = buildEmbedSrc(link);
@@ -174,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 	window.addEventListener('orientationchange', function(){ setTimeout(adjustEmbedHeights,200); });
 
-	// --- NEW: Handler for slide navigation list ---
+	// --- Handler for slide navigation list (Retained from original file) ---
     var slideNav = document.getElementById('slide-nav-list');
     var slidePreview = document.getElementById('drive-preview');
     
@@ -202,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     setActiveSlideLink(targetLink);
                 } else {
                     // Handle empty link (e.g., "Coming Soon")
-                    slidePreview.innerHTML = '<p class="muted">Slides for this day are not yet available.</p>';
+                    slidePreview.innerHTML = '<p class="muted">No slides for this day.</p>';
                     slidePreview.removeAttribute('data-drive-link');
                     setActiveSlideLink(targetLink);
                 }
@@ -220,4 +255,95 @@ document.addEventListener('DOMContentLoaded', function () {
             firstSlide.click();
         }
     }
+
+
+	// --- NEW: Handler for DPP Toggling ---
+	function setupDppToggling() {
+		var dppNav = document.querySelector('.dpp-nav');
+		// Select all containers holding the question lists (e.g., dpp1-questions, dpp2-questions)
+		var dppContainers = document.querySelectorAll('.dpp-questions-container');
+
+		if (dppNav && dppContainers.length > 0) {
+			// Function to set the active link and content
+			function setActiveDpp(dppId) {
+				// 1. Update navigation active state
+				dppNav.querySelectorAll('.dpp-trigger').forEach(function(link) {
+					// Check if the link's href matches the requested DPP ID
+					if (link.getAttribute('href') === '#' + dppId) {
+						link.classList.add('active');
+					} else {
+						link.classList.remove('active');
+					}
+				});
+
+				// 2. Toggle content visibility
+				dppContainers.forEach(function(container) {
+					// The container ID is based on the href ID + '-questions'
+					if (container.id === dppId + '-questions') {
+						container.classList.add('active'); // show
+					} else {
+						container.classList.remove('active'); // hide
+					}
+				});
+			}
+
+			dppNav.addEventListener('click', function(e) {
+				var targetLink = e.target.closest('.dpp-trigger');
+				if (targetLink) {
+					e.preventDefault();
+					// Get the DPP ID from the link's href (e.g., '#dpp1' -> 'dpp1')
+					var dppId = targetLink.getAttribute('href').substring(1); 
+					setActiveDpp(dppId);
+					
+					// Optional: Scroll the content into view for a better user experience
+					var contentContainer = document.getElementById(dppId + '-questions');
+					if (contentContainer) {
+						contentContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+					}
+				}
+			});
+			
+			// Auto-load the first DPP on page load
+			var firstDppLink = dppNav.querySelector('.dpp-trigger');
+			if (firstDppLink) {
+				var initialDppId = firstDppLink.getAttribute('href').substring(1);
+				setActiveDpp(initialDppId);
+			}
+		}
+	}
+
+	// Execute the DPP setup
+	setupDppToggling();
+
+	// KaTeX auto-rendering
+	(function(){
+		function runKaTeX() {
+			if (typeof renderMathInElement === 'function') {
+				try {
+					renderMathInElement(document.body, {
+						delimiters: [
+							{left: '$$', right: '$$', display: true},
+							{left: '$', right: '$', display: false}
+						]
+					});
+				} catch (e) {
+					// Fail silently - KaTeX rendering shouldn't break the page
+					console.error('KaTeX render error:', e);
+				}
+			}
+		}
+
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', runKaTeX);
+		} else {
+			runKaTeX();
+		}
+	})();
+
+	// Syntax highlighting using Highlight.js
+	// Find all <pre><code> blocks and apply highlighting
+	document.querySelectorAll('pre code').forEach((el) => {
+		hljs.highlightElement(el);
+	});
+
 });

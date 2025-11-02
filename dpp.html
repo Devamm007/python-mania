@@ -5,7 +5,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>DPP — python-mania</title>
 		<link rel="stylesheet" href="assets/index.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">   
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-dy1Bdxs0xJ/KxH3tXq/sI6w0xU7h1g1Sg+5zR6uLpP1z/Bw+G0xW3g3NfL3pQ" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/a11y-dark.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 	</head>
 	<body>
 		<header class="site-header">
@@ -31,13 +38,235 @@
 			<section class="content">
 				<h1 class="section-title">Daily Practice Problems (DPP)</h1>
 				<p class="muted">To be updated after DPP1 deadline ends</p>
+				
+				<!-- Quick DPP navigation (re-uses slide-nav styles) -->
+				<p class="muted">Select a DPP to view its 7 questions:</p>
+				<ul class="slide-nav dpp-nav" aria-label="DPP quick navigation">
+					<!-- The href is used by the JavaScript to identify the content block to show -->
+					<li><a href="#dpp1" class="dpp-trigger" aria-label="View DPP1 Questions">DPP1</a></li>
+					<li><a href="#dpp2" class="dpp-trigger" aria-label="View DPP2 Questions">DPP2</a></li>
+					<li><a href="#dpp3" class="dpp-trigger" aria-label="View DPP3 Questions">DPP3</a></li>
+				</ul>
 
-				<ol>
-					<li>Q1</li>
-					<li>Q2</li>
-					<li>Q3</li>
-					<li>Q4</li>
-				</ol>
+				<!-- DPP 1 Content Container (Initially Active) -->
+				<div id="dpp1-questions" class="dpp-questions-container">
+					<h2 class="dpp-section-title">DPP 1: Basic Python Syntax and Data Types</h2>
+					<ol class="dpp-questions-list">
+						<li>
+							<h3>Q1 – Python List Mutation</h3>
+							<p><strong>Problem:</strong> Consider the following Python code snippet. What will be the output of this code?</p>
+							<pre><code class="python">x = [1, 2, 3]
+y = x
+y.append(4)
+print(x)</code></pre>
+							<p><strong>Input Format:</strong> No input is required.</p>
+							<p><strong>Constraints:</strong> Basic Python list operations.</p>
+							<p><strong>Output Format:</strong> Print the exact output of the program as shown on the console.</p>
+							<details>
+								<summary><strong>💡 Solution: Python List Mutation</strong></summary>
+								<p>The output will be:</p>
+								<pre><code>[1, 2, 3, 4]</code></pre>
+								<p><strong>Explanation:</strong> In Python, when you assign one list to another with <code>y = x</code>, you are creating an <strong>alias</strong>. Both variables refer to the <strong>same list object</strong> in memory. Since lists are mutable, calling <code>y.append(4)</code> modifies the single shared list, which is then reflected when printing <code>x</code>.</p>
+							</details>
+						</li>
+
+						<li>
+							<h3>Q2 – Output Prediction: Number Series Pattern</h3>
+							<p><strong>Problem:</strong> Find the next number in this series:</p>
+							<p class="series">2, 5, 10, 17, _</p>
+							<p>Complete the program to print the next term in the sequence.</p>
+							<p><strong>Input Format:</strong> No input is required.</p>
+							<p><strong>Constraints:</strong> Basic number series pattern recognition.</p>
+							<p><strong>Output Format:</strong> Print the exact output of the program as shown on the console.</p>
+							<details>
+								<summary><strong>💡 Solution: Number Series Pattern</strong></summary>
+								<p>The next number is <strong>26</strong>.</p>
+								<p><strong>Pattern Analysis:</strong> The difference between consecutive terms increases by 2 each time (consecutive odd numbers are added):</p>
+								<ul>
+									<li>$$5 - 2 = \mathbf{3}$$</li>
+									<li>$$10 - 5 = \mathbf{5}$$</li>
+									<li>$$17 - 10 = \mathbf{7}$$</li>
+									<li>Next difference: $$\mathbf{9}$$</li>
+									<li>Next Term: $$17 + 9 = \mathbf{26}$$</li>
+								</ul>
+								<p>Alternatively, the $n$-th term is given by the formula $\mathbf{n^2 + 1}$ (starting at $n=1$): $$5^2 + 1 = 26$$</p>
+								<p><strong>Output:</strong></p>
+								<pre><code>26</code></pre>
+							</details>
+						</li>
+
+						<li>
+							<h3>Q3 – Output Prediction: List Repetition</h3>
+							<p><strong>Problem:</strong> Predict the output of this Python code:</p>
+							<pre><code class="python">result = [1, 2, 3] * 2 
+print(result)</code></pre>
+							<p><strong>Input Format:</strong> No input is required.</p>
+							<p><strong>Constraints:</strong> Basic Python list operations.</p>
+							<p><strong>Output Format:</strong> Print the exact output of the program as shown on the console.</p>
+							<details>
+								<summary><strong>💡 Solution: List Repetition</strong></summary>
+								<p>The output will be:</p>
+								<pre><code>[1, 2, 3, 1, 2, 3]</code></pre>
+								<p><strong>Explanation:</strong> The list repetition operator (<code>*</code>) concatenates the list with itself the specified number of times (2 times in this case), creating a new, longer list.</p>
+							</details>
+						</li>
+
+						<li>
+							<h3>Q4 – Problem: Prime Number Checker</h3>
+							<p><strong>Problem:</strong> Write a program that reads a positive integer <code>n</code> and determines if it is a prime number.</p>
+							<p><strong>Input Format:</strong> A single integer <code>n</code>.</p>
+							<p><strong>Constraints:</strong> $$1 \leq n \leq 10^6$$</p>
+							<p><strong>Output Format:</strong> Print "Prime" if the number is prime, otherwise print "Not prime".</p>
+							<details>
+								<summary><strong>💡 Solution: Prime Number Checker</strong></summary>
+								<p>A number is prime if it is greater than 1 and is not divisible by any integer from 2 up to its square root.</p>
+								<pre><code class="python">import math
+
+n = int(input())
+
+if n &lt;= 1:
+	print("Not prime")
+else:
+	is_prime = True
+	# We only need to check divisors up to the square root of n
+	for i in range(2, int(math.sqrt(n)) + 1):
+		if n % i == 0:
+			is_prime = False
+			break
+			
+	if is_prime:
+		print("Prime")
+	else:
+		print("Not prime")</code></pre>
+							</details>
+						</li>
+
+						<li>
+							<h3>Q5 – Problem: Count Uppercase and Lowercase Letters</h3>
+							<p><strong>Problem:</strong> Write a program that reads a string and counts the number of uppercase and lowercase letters.</p>
+							<p><strong>Input Format:</strong> A single string containing only alphabets (no spaces or punctuation).</p>
+							<p><strong>Constraints:</strong> $$1 \leq \text{length of string} \leq 1000$$</p>
+							<p><strong>Output Format:</strong> Print two integers separated by a space: First the count of uppercase letters, then the count of lowercase letters.</p>
+							<details>
+								<summary><strong>💡 Solution: Count Uppercase and Lowercase Letters</strong></summary>
+								<pre><code class="python">input_string = input()
+
+uppercase_count = 0
+lowercase_count = 0
+
+for char in input_string:
+	if char.isupper():
+		uppercase_count += 1
+	elif char.islower():
+		lowercase_count += 1
+# Note: Since the constraint says "only alphabets," we don't need to check isalpha()
+
+print(f"{uppercase_count} {lowercase_count}") 
+# Use f-string or concatenation for space-separated output
+
+#ALTERNATIVE METHOD:
+
+s = input()
+upper = sum(1 for c in s if c.isupper())
+lower = sum(1 for c in s if c.islower())
+print(upper, lower)
+</code></pre>
+							
+							</details>
+						</li>
+
+						<li>
+							<h3>Q6 – Problem: Scholarship Eligibility Checker (Boolean Logic)</h3>
+							<p><strong>Problem:</strong> A student is <strong>eligible</strong> if: (Age $\geq$ 18) <strong>AND</strong> (Score $\geq$ 75) <strong>AND</strong> (Disqualified is <code>False</code>).</p>
+							<p>You must print <code>True</code> if the student is eligible, or <code>False</code> otherwise.</p>
+							<p><strong>Input Format:</strong> Three space-separated values: <code>age</code> (int), <code>score</code> (int), and <code>disqualified</code> (Boolean string: "True" or "False").</p>
+							<p><strong>Constraints:</strong> $$0 \leq \text{age} \leq 120$$ $$0 \leq \text{score} \leq 100$$ $$\text{disqualified} \in \{\text{True, False}\}$$</p>
+							<p><strong>Output Format:</strong> Print a single Boolean value — <code>True</code> or <code>False</code>.</p>
+							<details>
+								<summary><strong>💡 Solution: Scholarship Eligibility Checker</strong></summary>
+								<pre><code class="python">input_data = input().split()
+age = int(input_data[0])
+score = int(input_data[1])
+# Convert the string 'True'/'False' from input into a Python boolean
+# 'True' string becomes True boolean, 'False' string becomes False boolean
+disqualified = input_data[2] == 'True' 
+
+# The eligibility check uses the logical AND operator for all three conditions
+is_eligible = (age &gt;= 18) and \
+			(score &gt;= 75) and \
+			(not disqualified) # not False is True, not True is False
+
+print(is_eligible)</code></pre>
+							</details>
+						</li>
+
+						<li>
+							<h3>Q7 – Problem: Student Performance Analysis (Function)</h3>
+							<p><strong>Problem:</strong> Write a function <code>analyze_performance(marks: list) -> tuple</code> that calculates the **average** (rounded to 2 decimal places), **highest**, **lowest** mark, and determines the **Grade** based on the average.</p>
+							<p><strong>Grading Scale:</strong> $$A \geq 90,\ B (75-89),\ C (60-74),\ D (40-59),\ F \leq 40$$</p>
+							<p><strong>Input Format:</strong> Two lines: <code>n</code> (number of subjects), then <code>n</code> space-separated marks.</p>
+							<p><strong>Constraints:</strong> $$1 \leq n \leq 100$$ $$0 \leq \text{marks}[i] \leq 100$$</p>
+							<p><strong>Output Format:</strong> Print the tuple in the format: <code>(average, highest, lowest, grade)</code>.</p>
+							<details>
+								<summary><strong>💡 Solution: Student Performance Analysis</strong></summary>
+								<pre><code class="python">def analyze_performance(marks: list) -> tuple:
+	# 1. Calculate Average Marks
+	average = sum(marks) / len(marks)
+	rounded_average = round(average, 2)
+	
+	# 2. Find Highest and Lowest Marks
+	highest = max(marks)
+	lowest = min(marks)
+	
+	# 3. Determine the Grade
+	if rounded_average &gt;= 90:
+		grade = 'A'
+	elif rounded_average &gt;= 75:
+		grade = 'B'
+	elif rounded_average &gt;= 60:
+		grade = 'C'
+	elif rounded_average &gt;= 40:
+		grade = 'D'
+	else:
+		grade = 'F'
+		
+	# 4. Return the tuple
+	return (rounded_average, highest, lowest, grade)
+
+# Main program to handle input/output
+try:
+	# Read n (not strictly needed for logic but part of format)
+	n = int(input()) 
+	# Read marks list
+	marks = list(map(int, input().split()))
+	
+	# Call function and print result
+	result = analyze_performance(marks)
+	print(result)
+
+except:
+	pass # Simple error handling for demonstration 
+</code></pre>
+							</details>
+						</li>
+					</ol>
+				</div>
+				<!-- End DPP 1 Content -->
+
+				<!-- DPP 2 Content Container (Hidden by default) -->
+				<div id="dpp2-questions" class="dpp-questions-container">
+					<h2 class="dpp-section-title">DPP 2: Control Flow and Functions (Placeholder)</h2>
+					<p class="muted">The questions for DPP 2 will appear here soon!</p>
+				</div>
+				<!-- End DPP 2 Content -->
+				
+				<!-- DPP 3 Content Container (Hidden by default) -->
+				<div id="dpp3-questions" class="dpp-questions-container">
+					<h2 class="dpp-section-title">DPP 3: Advanced Data Structures (Placeholder)</h2>
+					<p class="muted">The questions for DPP 3 will appear here soon!</p>
+				</div>
+				<!-- End DPP 3 Content -->
+
 
 				<p class="muted">Use these as starting points. Add inputs, consider edge cases, and test your solutions thoroughly.</p>
 			</section>

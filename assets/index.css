@@ -13,6 +13,7 @@ html,body{
 	background: linear-gradient(141deg, var(--bg) 51%, var(--bg-2) 75%);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
+	overflow-x: hidden; /* Prevent horizontal scroll */
 }
 body{
 	margin:0;
@@ -225,9 +226,34 @@ a:hover {
 
 .muted{color:var(--muted)}
 
-/* Code / pre formatting */
-pre{background:rgba(255,255,255,0.02);padding:0.75rem;border-radius:6px;overflow:auto;border:1px solid rgba(255,255,255,0.02);font-size:0.95rem}
-code{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;color:var(--fg)}
+/* Code / pre formatting - UPDATED for better mobile handling */
+pre {
+    background: rgba(255,255,255,0.02);
+    padding: 0.75rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    border: 1px solid rgba(255,255,255,0.02);
+    font-size: 0.95rem;
+    max-width: 100%;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+    color: var(--fg);
+}
+
+/* Math equations - UPDATED for better mobile handling */
+.katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    padding: 0.5rem 0;
+}
+.katex {
+    max-width: 100%;
+    font-size: 1em !important;
+}
 
 /* Recordings page styles */
 .recordings-grid {
@@ -342,7 +368,111 @@ code{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Co
 	.container{padding:0.75rem}
 	.grid{gap:0.6rem}
 	.card{padding:0.8rem}
-	.content { padding: 1rem; } /* Adjust padding for small screens */
+	.content { 
+        padding: 1rem;
+        width: 100%; /* Full width on very small screens */
+    }
 	.slide-nav a { padding: 0.4rem 0.7rem; font-size: 0.9rem; }
+
+    /* Adjust font sizes for better readability on small screens */
+    pre, code {
+        font-size: 0.9rem;
+    }
+    .katex {
+        font-size: 0.9em !important;
+    }
 }
 
+
+/* --- NEW DPP STYLES --- */
+.dpp-questions-container {
+    /* Initially hidden. Toggled by .active class via JS */
+    display: none;
+    padding-top: 1rem;
+    /* Optional: Add a subtle animation when toggling visibility */
+    transition: all 0.3s ease-in-out; 
+    max-width: 100%; /* Ensure container doesn't overflow */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+.dpp-questions-container.active {
+    display: block;
+}
+
+.dpp-questions-list {
+    list-style: none; /* Remove default list bullets */
+    padding: 0;
+    margin: 1.5rem 0 0 0;
+}
+.dpp-questions-list > li {
+    /* Better separation for questions */
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed rgba(255,255,255,0.06);
+}
+.dpp-questions-list > li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.dpp-questions-list h3 {
+    margin-top: 0;
+    font-size: 1.25rem;
+    color: var(--accent);
+}
+
+/* Styling for the Solution toggle (details/summary) */
+details {
+    margin-top: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 6px;
+    background: rgba(255,255,255,0.02);
+}
+
+summary {
+    cursor: pointer;
+    padding: 0.75rem 1rem;
+    outline: none;
+    font-weight: 600;
+    color: var(--fg); /* Change solution color to foreground for contrast */
+    transition: background-color 0.15s ease;
+}
+
+summary strong {
+    color: var(--accent); /* Highlight the solution text */
+}
+
+summary:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+details[open] summary {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px 6px 0 0;
+}
+
+details p, details pre, details ul, details ol {
+    padding: 0 1rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+details pre {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 0.75rem;
+    background: rgba(0,0,0,0.2);
+}
+details ul {
+    list-style: disc;
+    padding-left: 2rem;
+}
+
+/* Ensure the series class looks good */
+.series {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--accent);
+    margin: 0.5rem 0;
+    display: block;
+}
