@@ -480,9 +480,9 @@ def is_prime(n: int) -> bool():
   if n%5 == 0 and n != 5:
     return False
 
-  for i in range(6, int(n**0.5)):
-  # error change range(1, ...) to range(2, ...)
-  # discussed in session
+  for i in range(7, int(n**0.5)):# more optimised would be to check 6k +/- 1
+  # for i in range(5, int(n**0.5)+1, 6): something like this
+
     if n % i == 0:
       return False
   return True
