@@ -255,8 +255,514 @@ except:
 
 				<!-- DPP 2 Content Container (Hidden by default) -->
 				<div id="dpp2-questions" class="dpp-questions-container">
-					<h2 class="dpp-section-title">DPP 2: Control Flow and Functions (Placeholder)</h2>
-					<p class="muted">The questions for DPP 2 will appear here soon!</p>
+					<h2 class="dpp-section-title">DPP 2: Control Flow and Functions</h2>
+					<ol class="dpp-questions-list">
+						<li>
+							<h3>Q1 – Integer come in all sizes</h3>
+							<p><strong>Problem:</strong> Read four numbers a, b, c, d and print the result of $$a^b+c^d$$</p>
+							<details>
+								<summary><strong>💡 Solution: Integers</strong></summary>
+								<pre><code class="python">a = int(input())
+b = int(input())
+c = int(input())
+d = int(input())
+
+print(f"{a**b + c**d}")</code></pre>
+							</details>
+						</li>
+						<li>
+							<h3>Q2 – Arithmetic Operators</h3>
+							<p><strong>Problem:</strong> The provided code stub reads two integers from STDIN, a and b. Add code to print three lines where:</p>
+							<p>The first line contains the sum of the two numbers (a + b).</p>
+							<p>The second line contains the difference of the two numbers (first - second).</p>
+							<p>The third line contains the product of the two numbers.</p>
+							<details>
+								<summary><strong>💡 Solution: Arithmetic Operators</strong></summary>
+								<pre><code class="python">if __name__ == '__main__':
+    a = int(input())
+    b = int(input())
+    print(f"{a+b}\n{a-b}\n{a*b}")</code></pre>
+							</details>
+						</li>
+						<li>
+							<h3>Q3 – Python If-Else</h3>
+							<p><strong>Problem:</strong> The provided code stub reads two integers from STDIN, a and b. Add code to print three lines where:</p>
+							<p>If n is odd, print "Weird"</p>
+							<p>If n is even and in the inclusive range of 2 to 5, print "Not weird"</p>
+							<p>If n is even and in the inclusive range of 6 to 20, print "Weird"</p>
+							<p>If n is even and greater than 20, print "Not weird"</p>
+							<details>
+								<summary><strong>💡 Solution: If-Else</strong></summary>
+								<pre><code class="python">n = int(input().strip())
+if n%2 != 0:
+	print("Weird")
+if n%2 == 0 and (2<=n<=5 or n>20):
+	print("Not Weird")
+if n%2 == 0 and 6<=n<=20:
+	print("Weird")</code></pre>
+							</details>
+						</li>
+						<li>
+							<h3>Q4 – Division</h3>
+							<p><strong>Problem:</strong>The provided code stub reads two integers, a and b, from STDIN. 
+							<p>Add logic to print two lines. The first line should contain the result of integer division, a // b.</p>
+							<p>The second line should contain the result of float division, a / b.</p>
+							<p>No rounding or formatting is necessary.</p>
+							<details>
+								<summary><strong>💡 Solution: Division</strong></summary>
+								<pre><code class="python">a = int(input())
+b = int(input())
+print(f"{a//b}\n{a/b}")</code></pre>
+							</details>
+							
+						</li>
+						<li>
+							<h3>Q5 – Insertion Sort - Part 1</h3>
+							<p><strong>Problem:</strong> Given a sorted list with an unsorted number <code>e</code> in the rightmost cell, write code to insert <code>e</code> into the array so that it remains sorted. This exercise will demonstrate the brute-force insertion method.</p>
+							<p><strong>Input Format:</strong> Two lines: <code>n</code> (the size of the array) and <code>arr</code> (the space-separated list of numbers).</p>
+							<p><strong>Output Format:</strong> Print the array at each step as the unsorted element is shifted to the left, and finally print the array with the element inserted in its correct position.</p>
+							<details>
+								<summary><strong>💡 Solution: Insertion Sort - Part 1</strong></summary>
+								<p>The solution involves storing the last value, shifting all larger elements to the right one by one, and then inserting the stored value into its correct spot.</p>
+								<pre><code class="python">#!/bin/python3
+import math
+import os
+import random
+import re
+import sys
+
+def insertionSort1(n, arr):
+    last_value = arr[-1]
+    for i in range(n-2, -1, -1):
+        if arr[i] > last_value:
+            arr[i+1] = arr[i]
+            # l = ""
+            # for i in range(len(arr)):
+            #   l += str(f"{arr[i]} ")
+            # print(l)
+            print(*arr)
+        else:
+            arr[i+1] = last_value
+            print(*arr)
+            break
+    
+if __name__ == '__main__':
+    n = int(input().strip()) # "5  " -> "5"
+    arr = list(map(int, input().rstrip().split()))
+
+    insertionSort1(n, arr)</code></pre>
+							</details>
+						</li>
+
+						<li>
+							<h3>Q6 – Insertion Sort - Part 2</h3>
+							<p><strong>Problem:</strong> In the provided <code>insertion_sort</code> code, there is a logic error. Find and fix it so the code fully sorts the given array.</p>
+							<p><strong>Input Format:</strong> Two lines: <code>s</code> (the size of the array) and <code>arr</code> (the space-separated list of numbers).</p>
+							<p><strong>Constraints:</strong></p>
+							<ul>
+								<li>$$1 \le s \le 1000$$</li>
+								<li>$$-1500 \le arr[i] \le 1500$$</li>
+							</ul>
+							<p><strong>Output Format:</strong> Print the array only once, when it is fully sorted.</p>
+							<details>
+								<summary><strong>💡 Solution: Insertion Sort - Part 2</strong></summary>
+								<p><strong>Explanation:</strong> The error is in the <code>while</code> loop condition. The original code <code>while (j > 0)</code> stops checking when <code>j</code> reaches 0, preventing an element from being inserted at the very beginning (index 0) of the array. The fix is to change the condition to <code>while (j >= 0)</code>.</p>
+								<pre><code class="python"># Find error
+
+def insertion_sort(l):
+    for i in range(1, len(l)):
+        j = i-1
+        key = l[i]
+        while (j >= 0) and (l[j] > key): # error j > 0 changes to j >= 0
+           l[j+1] = l[j]
+           j -= 1
+        l[j+1] = key
+
+m = int(input().strip())
+ar = [int(i) for i in input().strip().split()]
+insertion_sort(ar)
+print(" ".join(map(str,ar)))</code></pre>
+							</details>
+						</li>
+
+						<li>
+							<h3>Q7 – Prime Sum</h3>
+							<p><strong>Problem:</strong> Given a number <code>N</code> and a positive integer <code>K</code>, determine if <code>N</code> can be represented as a sum of <code>K</code> prime numbers (not necessarily distinct).</p>
+							<p><strong>Input Format:</strong> The first line contains <code>T</code> (number of test cases). Each subsequent line contains two space-separated positive integers, <code>N</code> and <code>K</code>.</p>
+							<p><strong>Constraints:</strong></p>
+							<ul>
+								<li>$$1 \le T \le 5000$$</li>
+								<li>$$1 \le N \le 10^{12}$$</li>
+								<li>$$1 \le K \le 10^{12}$$</li>
+							</ul>
+							<p><strong>Output Format:</strong> For each test case, print "Yes" or "No".</p>
+							<details>
+								<summary><strong>💡 Solution: Prime Sum</strong></summary>
+								<p>The solution relies on properties of prime numbers and Goldbach's conjecture. The code in the PDF contains several logical errors and typos. Below is a corrected version based on the problem's logic.</p>
+								<pre><code class="python">#!/bin/python3
+import math
+import os
+import random
+import re
+import sys
+
+def is_prime(n):
+  if n <= 1:
+    return False
+  if n == 2 or n == 3:
+    return True
+  if n%2 == 0 or n%3 == 0:
+    return False
+  if n%5 == 0 and n != 5:
+    return False
+
+  for i in range(2, int(n**0.5)): # more optimised would be to check 6k +/- 1
+  # for i in range(5, int(n**0.5)+1, 6): something like this
+    if n % i == 0:
+      return False
+  return True
+
+def solve(n, k):
+  if k == 1:
+    if is_prime(n):
+      return "Yes"
+    else:
+      return "No"
+  if k == 2:
+    if n%2 == 0:
+      return "Yes"
+  if n % 2 == 0:
+      return "Yes" if n >= 2 * k else "No" # strong goldbach conjecture
+  else:
+      return "Yes" if n >= 2 * k + 1 else "No"
+if __name__ == '__main__':
+    t = int(input().strip())
+    for t_itr in range(t):
+        first_multiple_input = input().rstrip().split()
+        n = int(first_multiple_input[0])
+        k = int(first_multiple_input[1])
+        result = solve(n, k)
+        print(result, "\n")
+
+# 5
+# 4759123141 1
+# 4759123143 1
+# 4759123145 1
+# 4759123147 1
+# 4759123149 1</code></pre>
+							</details>
+						</li>
+
+						<li>
+							<h3>Q8 – Project Euler #146 Inspired Problem</h3>
+							<p><strong>Problem:</strong> Find the sum of all integers <code>n</code> strictly below <code>L</code> such that the six numbers $n^{2}+a_{1}$, $n^{2}+a_{2}$, $n^{2}+a_{3}$, $n^{2}+a_{4}$, $n^{2}+a_{5}$, and $n^{2}+a_{6}$ are **consecutive primes**.</p>
+							<p><strong>Input Format:</strong> The first line contains <code>T</code> (number of test cases). Each test case consists of two lines: <code>L</code> (the limit) and a line of six space-separated integers $a_{1}...a_{6}$.</p>
+							<p><strong>Constraints:</strong></p>
+							<ul>
+								<li>$$1 \le T \le 3$$</li>
+								<li>$$1 \le L \le 10^{7}$$</li>
+								<li>$$1 \le a_{1} < a_{2} < ... < a_{6} \le 40$$</li>
+							</ul>
+							<p><strong>Output Format:</strong> For each test case, print the calculated sum.</p>
+							<details>
+								<summary><strong>💡 Solution: Project Euler #146 Inspired Problem</strong></summary>
+								<p>The PDF provides two solutions: a simple, unoptimized version and a complex, optimized version. The unoptimized code is too slow and logically incomplete (it doesn't check for consecutiveness). The optimized code is required to pass.</p>
+								<p>This optimized solution uses a fast **Miller-Rabin** probabilistic primality test, **caching**, a **sieve** to eliminate non-candidate <code>n</code> values, and a **consecutiveness check** to ensure no other primes exist in the gaps. The code below is reconstructed and fixed from the fragments in the PDF.</p>
+								
+								<pre><code class="python"># UNOPTIMISED LOGICALLY CORRECT CODE
+def is_prime(n: int) -> bool():
+  if n <= 1:
+    return False
+  if n == 2 or n == 3:
+    return True
+  if n%2 == 0 or n%3 == 0:
+    return False
+  if n%5 == 0 and n != 5:
+    return False
+
+  for i in range(6, int(n**0.5)):
+  # error change range(1, ...) to range(2, ...)
+  # discussed in session
+    if n % i == 0:
+      return False
+  return True
+
+t = int(input())
+
+for _ in range(t):
+  L = int(input())
+  # Method 1
+  # a1, a2, a3, a4, a5, a6 = map(int, input().split())
+  # Method 2
+  # a1, a2, a3, a4, a5, a6 = [int(i) for i in input().split()]
+  # a = [a1, a2, a3, a4, a5, a6]
+  # Method 3
+  a = [int(i) for i in input().split()]
+  sum = 0
+
+  for j in range(10, L):
+    primes = [ j**2+a[i] for i in range(len(a)) ]
+    primes_truth = []
+    for i in primes:
+      primes_truth.append(is_prime(i))
+    if all(primes_truth):
+      # you have to use all() function
+      # to return True when all values of list is True
+      # not debugged in session/recording
+      sum += j
+    
+  print(sum)
+
+# input
+# 9943395
+# 7 9 15 25 37 39
+# output
+# 20271808
+								</code></pre>
+								<p>Optimised Code: test cases #1, #2, #4, #5, #6, #8, #10 raising timeout error on Hackerrank platform, so ignore them
+</p>
+								<pre><code class="python"># OPTIMISED CODE (FOR ~70% TEST CASES)
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+# --- Miller-Rabin Primality Test for 64-bit integers ---
+# This is a fast probabilistic test, deterministic for n < 3,317,044,064,679,887
+# Our numbers (n^2 + a_i) can be up to (10^7)^2 + 40, which is ~10^14.
+
+def power(a, d, n):
+    """Calculates (a^d) % n"""
+    res = 1
+    a = a % n
+    while d > 0:
+        if d % 2 == 1:
+            res = (res * a) % n
+        d >>= 1
+        a = (a * a) % n
+    return res
+
+def miller_rabin(n):
+    """Miller-Rabin primality test."""
+    if n <= 1:
+        return False
+    if n <= 3:
+        return True
+    if n % 2 == 0:
+        return False
+
+    # Deterministic bases for n < 3,317,044,064,679,887
+    bases = [2, 3, 5, 7, 11, 13, 17]
+
+    # Write n-1 as 2^s * d
+    d = n - 1
+    s = 0
+    while d % 2 == 0:
+        d //= 2
+        s += 1
+
+    for a_base in bases:
+        if a_base >= n:
+            break
+        
+        x = power(a_base, d, n)
+        if x == 1 or x == n - 1:
+            continue
+
+        for _ in range(s - 1):
+            x = (x * x) % n
+            if x == n - 1:
+                break
+        else:
+            # This 'else' runs if the 'for' loop completes without 'break'
+            return False
+    return True
+
+# --- Caching Wrapper for Primality Test ---
+# We cache results because the consecutiveness check
+# might re-test the same primes.
+g_prime_cache = {}
+
+def is_prime_cached(n):
+    """Cached wrapper for Miller-Rabin test."""
+    if n in g_prime_cache:
+        return g_prime_cache[n]
+    
+    # Simple checks for small numbers
+    if n < 50:
+        res = n in {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47}
+        g_prime_cache[n] = res
+        return res
+        
+    res = miller_rabin(n)
+    g_prime_cache[n] = res
+    return res
+
+def is_prime_uncached(n):
+    """Non-caching primality test. Used for gap-checking."""
+    if n < 50:
+        return n in {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47}
+    return miller_rabin(n)
+
+
+# --- Consecutiveness Check ---
+
+def check_consecutive(primes):
+    """
+    Checks if the list of primes [p1, ..., p6] are consecutive.
+    It does this by checking for any other primes in the open intervals
+    (p_i, p_{i+1}).
+    Uses the UNCACHED prime test to avoid memory errors.
+    """
+    for i in range(len(primes) - 1):
+        # We only need to check numbers in the gap.
+        # The gap is small (a[i+1] - a[i]), max 39.
+        for num in range(primes[i] + 1, primes[i+1]):
+            # Use the uncached version to prevent memory overflow
+            if is_prime_uncached(num):
+                # Found an intermediate prime!
+                return False
+    return True
+
+#
+# Complete the 'solve' function below.
+#
+# The function is expected to return a STRING.
+# The function accepts following parameters:
+#  1. INTEGER L
+#  2. STRING_ARRAY a
+#
+
+def solve(L, a_str):
+    # Clear cache for each new test case
+    g_prime_cache.clear()
+
+    # Convert string array to integer array
+    a = [int(x) for x in a_str]
+
+    # is_possible[n] will be True if n is a potential candidate
+    # We need L+1 size to check is_possible[L], though problem says "below L"
+    # Let's use size L, checking n from 1 to L-1.
+    # The sample for L=11 gives 10, so n=10 is included.
+    # The sample for L=10 gives 0. This implies n is strictly < L.
+    # Let's follow "below L", so n ranges from 1 to L-1.
+    if L == 0:
+        return "0"
+        
+    is_possible = [True] * L
+    is_possible[0] = False  # n=0 is not a valid solution (n^2+a_i might not be prime)
+
+    # We sieve n using small primes up to a_6's max value (40)
+    small_primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]
+
+    for p in small_primes:
+        # Optimization: No need to sieve if p is larger than the largest offset
+        if p > a[-1]:
+             continue
+             
+        # Find all n (mod p) that are "forbidden"
+        forbidden_n_mod_p = set()
+        
+        if p == 2:
+            # n^2 (mod 2) is 0 if n is even, 1 if n is odd.
+            has_even_ai = any(ai % 2 == 0 for ai in a)
+            has_odd_ai = any(ai % 2 == 1 for ai in a)
+            
+            # If n is even (n^2=0), n^2+ai = ai (mod 2). 
+            # If any ai is even, n^2+ai is even. Forbidden.
+            if has_even_ai: forbidden_n_mod_p.add(0)
+            
+            # If n is odd (n^2=1), n^2+ai = 1+ai (mod 2).
+            # If any ai is odd, 1+ai is even. Forbidden.
+            if has_odd_ai: forbidden_n_mod_p.add(1)
+        else:
+            for ai in a:
+                # We are looking for n^2 + ai = 0 (mod p)
+                # n^2 = -ai (mod p)
+                target_residue = (-ai) % p
+                # Find square roots of target_residue mod p
+                for x in range(p):
+                    if (x * x) % p == target_residue:
+                        forbidden_n_mod_p.add(x)
+
+        # TLE FIX: Pre-calculate n values that are exceptions (n*n + ai == p)
+        exceptions_for_p = set()
+        for ai in a:
+            n_squared = p - ai
+            if n_squared > 0:
+                n = int(n_squared**0.5)
+                # Check for perfect square
+                if n * n == n_squared:
+                    exceptions_for_p.add(n)
+
+
+        # Now, sieve out all n corresponding to these forbidden residues
+        for x in forbidden_n_mod_p:
+            start_n = x
+            if start_n == 0: # Start from p, not 0
+                start_n = p
+
+            if start_n == 0: continue # Should not happen, but as a guard
+
+            for n in range(start_n, L, p):
+                # TLE FIX: Check against the pre-calculated exception set.
+                # This is much faster than the inner loop.
+                if is_possible[n]:
+                    if n not in exceptions_for_p:
+                        is_possible[n] = False
+
+    # --- Final Check ---
+    # Iterate through the remaining candidates and do the full primality
+    # and consecutiveness tests.
+    
+    total_sum = 0
+    for n in range(1, L): # n is "below L"
+        if is_possible[n]:
+            # Generate the 6 prime candidates
+            primes = [n * n + ai for ai in a]
+            
+            # 1. Check if all 6 are prime
+            all_are_prime = True
+            for p_val in primes:
+                # Use the CACHED version here, as n^2+a_i might be
+                # a gap-prime for another n
+                if not is_prime_cached(p_val):
+                    all_are_prime = False
+                    break
+            
+            if all_are_prime:
+                # 2. Check if they are consecutive
+                if check_consecutive(primes):
+                    total_sum += n
+    
+    return str(total_sum)
+
+
+if __name__ == '__main__':
+    # Check if 'OUTPUT_PATH' is defined, otherwise write to stdout
+    try:
+        fptr = open(os.environ['OUTPUT_PATH'], 'w')
+    except KeyError:
+        fptr = sys.stdout
+
+    t = int(input().strip())
+
+    for t_itr in range(t):
+        L = int(input().strip())
+        a = input().rstrip().split()
+        result = solve(L, a)
+        fptr.write(result + '\n')
+
+    # Don't close stdout
+    if fptr != sys.stdout:
+        fptr.close()
+								</code></pre>
+							</details>
+    				    </li>
+					</ol>
 				</div>
 				<!-- End DPP 2 Content -->
 				
